@@ -11,3 +11,23 @@ services:
       - "3306:3306"
     volumes:
       - "./scripts/db_person_create.sql:/docker-entrypoint-initdb.d/1.sql"
+    networks:
+      - default
+
+  ms_person:
+    build:
+      "./person"
+    container_name: ms_person
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - default
+    profiles:
+      - production
+    environment:
+       - "SPRING_PROFILES_ACTIVE=prod"
+  
+networks:
+  default:
+    driver: bridge
