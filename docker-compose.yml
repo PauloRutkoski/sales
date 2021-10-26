@@ -24,9 +24,9 @@ services:
     networks:
       - default
     profiles:
-      - production
+      - dev
     environment:
-       - "SPRING_PROFILES_ACTIVE=prod"
+       - "SPRING_PROFILES_ACTIVE=dev"
   
 networks:
   default:
