@@ -13,6 +13,20 @@ services:
       - "./scripts/db_person_create.sql:/docker-entrypoint-initdb.d/1.sql"
     networks:
       - default
+  
+  db_products:
+    image: mysql
+    container_name: db_products_mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+    ports:
+      - "3307:3306"
+    volumes:
+      - "./scripts/db_products_create.sql:/docker-entrypoint-initdb.d/1.sql"
+    networks:
+      - default
 
   ms_person:
     build:
@@ -27,6 +41,20 @@ services:
       - dev
     environment:
        - "SPRING_PROFILES_ACTIVE=dev"
+
+  ms_products:
+    build:
+      "./products"
+    container_name: ms_products
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - default
+    profiles:
+      - dev
+    environment:
+       - "SPRING_PROFILES_ACTIVE=dev"  
   
 networks:
   default:

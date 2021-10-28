@@ -16,10 +16,12 @@ public class Product {
     private String reference;
     @NotBlank
     private String name;
+    @NotBlank
+    private String brand;
     @DecimalMin(value = "0.01")
     private Double price;
 
-    public Product(){
+    public Product() {
     }
 
     public Long getId() {
@@ -44,6 +46,14 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public Double getPrice() {
