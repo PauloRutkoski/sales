@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/person")
+@Validated
 public class PersonController {
     @Autowired
     private PersonService service;
@@ -27,7 +28,7 @@ public class PersonController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Person> findById(@RequestParam Long id) {
+    public ResponseEntity<Person> findById(@PathVariable Long id) {
         Person entity = service.load(id);
         if (entity == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -36,13 +37,20 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> insert(@Valid @RequestBody Person entity) {
+    public ResponseEntity<Person> insert(@RequestBody Person entity) {
+        boolean valid = service.valid(entity);
+        if(!valid){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         entity = service.persist(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(entity);
     }
 
     @PutMapping
-    public ResponseEntity<Person> update(@Valid @RequestBody Person entity) {
+    public ResponseEntity<Person> update(@RequestBody Person entity) {
+        if(!service.valid(entity)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         entity = service.persist(entity);
         return ResponseEntity.ok(entity);
     }

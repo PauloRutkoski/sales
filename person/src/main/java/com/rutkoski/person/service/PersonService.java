@@ -13,6 +13,19 @@ public class PersonService {
     @Autowired
     private PersonRepository repository;
 
+    public boolean valid(Person entity){
+        if(entity == null){
+            return false;
+        }
+        if(entity.getName() == null || entity.getName().isEmpty()){
+            return false;
+        }
+        if(entity.getDocument() == null || entity.getDocument().length() < 4){
+            return false;
+        }
+        return true;
+    }
+
     public Person load(Long id) {
         Optional<Person> entity = repository.findById(id);
         return entity.orElse(null);

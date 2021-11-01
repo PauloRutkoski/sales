@@ -21,6 +21,12 @@ public class Person {
     public Person() {
     }
 
+    public Person(Long id, String name, String document) {
+        this.id = id;
+        this.name = name;
+        this.document = document;
+    }
+
     public Long getId() {
         return id;
     }
@@ -50,7 +56,7 @@ public class Person {
         if (this == o) return true;
         if (!(o instanceof Person)) return false;
         Person person = (Person) o;
-        return id.equals(person.id);
+        return Objects.equals(id, person.id);
     }
 
     @Override
