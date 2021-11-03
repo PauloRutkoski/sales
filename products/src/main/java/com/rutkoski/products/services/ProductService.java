@@ -13,6 +13,25 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
+    public boolean validate(Product entity) {
+        if (entity == null) {
+            return false;
+        }
+        if (entity.getReference() == null || entity.getReference().isEmpty()) {
+            return false;
+        }
+        if (entity.getName() == null || entity.getName().isEmpty()) {
+            return false;
+        }
+        if (entity.getBrand() == null || entity.getBrand().isEmpty()) {
+            return false;
+        }
+        if (entity.getPrice() == null || entity.getPrice() <= 0.0) {
+            return false;
+        }
+        return true;
+    }
+
     public Product load(Long id) {
         Optional<Product> entity = repository.findById(id);
         return entity.orElse(null);

@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +25,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Product> findById(@RequestParam Long id) {
+    public ResponseEntity<Product> findById(@PathVariable Long id) {
         Product entity = service.load(id);
         if (entity == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -35,13 +34,19 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> insert(@Valid @RequestBody Product entity) {
+    public ResponseEntity<Product> insert(@RequestBody Product entity) {
+        if(!service.validate(entity)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         entity = service.persist(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(entity);
     }
 
     @PutMapping
-    public ResponseEntity<Product> update(@Valid @RequestBody Product entity) {
+    public ResponseEntity<Product> update(@RequestBody Product entity) {
+        if(!service.validate(entity)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         entity = service.persist(entity);
         return ResponseEntity.ok(entity);
     }

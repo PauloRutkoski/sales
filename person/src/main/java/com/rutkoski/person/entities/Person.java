@@ -1,9 +1,8 @@
 package com.rutkoski.person.entities;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Entity
@@ -12,9 +11,9 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "A name is necessary")
+    @NotNull
     private String name;
-    @Pattern(regexp = "^\\d{11,}$",message = "A document should have only numbers and at least 11 digits")
+    @NotNull
     private String document;
 
 
