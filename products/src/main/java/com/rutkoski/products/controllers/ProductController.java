@@ -42,11 +42,12 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(entity);
     }
 
-    @PutMapping
-    public ResponseEntity<Product> update(@RequestBody Product entity) {
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Product> update(@RequestBody Product entity, @PathVariable Long id) {
         if(!service.validate(entity)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+        entity.setId(id);
         entity = service.persist(entity);
         return ResponseEntity.ok(entity);
     }

@@ -1,7 +1,7 @@
-package com.rutkoski.person.controllers;
+package com.rutkoski.orders.controllers;
 
-import com.rutkoski.person.entities.Person;
-import com.rutkoski.person.service.PersonService;
+import com.rutkoski.orders.entities.Order;
+import com.rutkoski.orders.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/person")
-public class PersonController {
+@RequestMapping(value = "/orders")
+public class OrderController {
     @Autowired
-    private PersonService service;
+    private OrderService service;
 
     @GetMapping
-    public ResponseEntity<List<Person>> findAll() {
-        List<Person> list = service.findAll();
+    public ResponseEntity<List<Order>> findAll() {
+        List<Order> list = service.findAll();
         if (list == null || list.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
@@ -25,8 +25,8 @@ public class PersonController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Person> findById(@PathVariable Long id) {
-        Person entity = service.load(id);
+    public ResponseEntity<Order> findById(@PathVariable Long id) {
+        Order entity = service.load(id);
         if (entity == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -34,8 +34,8 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> insert(@RequestBody Person entity) {
-        boolean valid = service.valid(entity);
+    public ResponseEntity<Order> insert(@RequestBody Order entity) {
+        boolean valid = service.validate(entity);
         if(!valid){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -44,13 +44,12 @@ public class PersonController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Person> update(@RequestBody Person entity, @PathVariable Long id) {
-        if(!service.valid(entity)){
+    public ResponseEntity<Order> update(@RequestBody Order entity, @PathVariable Long id) {
+        if(!service.validate(entity)){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         entity.setId(id);
         entity = service.persist(entity);
         return ResponseEntity.ok(entity);
     }
-
 }

@@ -165,7 +165,7 @@ class PersonControllerTest {
         Mockito.when(personService.valid(any(Person.class))).thenCallRealMethod();
 
         RequestBuilder request = MockMvcRequestBuilders
-                .put("/person")
+                .put("/person/{id}", p.getId())
                 .content(this.objectMapper.writeValueAsString(p))
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(request).andReturn();
@@ -205,7 +205,7 @@ class PersonControllerTest {
         Mockito.when(personService.valid(any(Person.class))).thenCallRealMethod();
 
         RequestBuilder request = MockMvcRequestBuilders
-                .put("/person")
+                .put("/person/{id}", p.getId())
                 .content(this.objectMapper.writeValueAsString(p))
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(request).andReturn();
@@ -219,7 +219,7 @@ class PersonControllerTest {
         Mockito.when(personService.valid(any(Person.class))).thenCallRealMethod();
 
         RequestBuilder request = MockMvcRequestBuilders
-                .put("/person")
+                .put("/person/{id}", p.getId())
                 .content(this.objectMapper.writeValueAsString(p))
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(request).andReturn();

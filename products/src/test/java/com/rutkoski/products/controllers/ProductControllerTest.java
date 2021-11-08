@@ -172,7 +172,7 @@ class ProductControllerTest {
         Mockito.when(productService.validate(any(Product.class))).thenCallRealMethod();
 
         RequestBuilder request = MockMvcRequestBuilders
-                .put("/products")
+                .put("/products/{id}", p.getId())
                 .content(this.objectMapper.writeValueAsString(p))
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(request).andReturn();
@@ -234,7 +234,7 @@ class ProductControllerTest {
         Mockito.when(productService.validate(any(Product.class))).thenCallRealMethod();
 
         RequestBuilder request = MockMvcRequestBuilders
-                .put("/products")
+                .put("/products/{id}", p.getId())
                 .content(this.objectMapper.writeValueAsString(p))
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(request).andReturn();

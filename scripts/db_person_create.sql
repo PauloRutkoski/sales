@@ -4,8 +4,7 @@ CREATE TABLE `db_person`.`person` (
   `id` BIGINT(10) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(60) NOT NULL,
   `document` VARCHAR(40) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_unicode_ci;
