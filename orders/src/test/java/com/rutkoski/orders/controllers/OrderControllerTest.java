@@ -6,6 +6,7 @@ import com.rutkoski.orders.entities.Order;
 import com.rutkoski.orders.entities.OrderProduct;
 import com.rutkoski.orders.entities.Person;
 import com.rutkoski.orders.entities.Product;
+import com.rutkoski.orders.services.OrderProductService;
 import com.rutkoski.orders.services.OrderService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -37,7 +39,7 @@ import static org.mockito.ArgumentMatchers.any;
 @SpringBootTest
 @AutoConfigureMockMvc
 class OrderControllerTest {
-    @MockBean
+    @SpyBean
     private OrderService orderService;
     @Autowired
     private ObjectMapper objectMapper;
@@ -66,7 +68,7 @@ class OrderControllerTest {
 
     @Test
     void findAllNoData() throws Exception {
-        Mockito.when(orderService.findAll()).thenReturn(new ArrayList<>());
+        Mockito.doReturn(new ArrayList<>()).when(orderService).findAll();
 
         RequestBuilder request = MockMvcRequestBuilders.get(PATH);
         MvcResult result = mockMvc.perform(request).andReturn();
@@ -82,7 +84,7 @@ class OrderControllerTest {
         Order order3 = new Order(1L, null, null);
 
         List<Order> list = Arrays.asList(order1, order2, order3);
-        Mockito.when(orderService.findAll()).thenReturn(list);
+        Mockito.doReturn(list).when(orderService).findAll();
 
         RequestBuilder request = MockMvcRequestBuilders.get(PATH);
         MvcResult result = mockMvc.perform(request).andReturn();
@@ -94,9 +96,9 @@ class OrderControllerTest {
 
     @Test
     void findByIdSuccess() throws Exception {
-        Mockito.when(orderService.load(1L)).thenReturn(this.example);
+        Mockito.doReturn(example).when(orderService).load(1L);
 
-        RequestBuilder request = MockMvcRequestBuilders.get(PATH+ "/{id}", 1L);
+        RequestBuilder request = MockMvcRequestBuilders.get(PATH + "/{id}", 1L);
         MvcResult result = mockMvc.perform(request).andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
@@ -105,9 +107,9 @@ class OrderControllerTest {
 
     @Test
     void findByIdNotFound() throws Exception {
-        Mockito.when(orderService.load(1L)).thenReturn(null);
+        Mockito.doReturn(null).when(orderService).load(1L);
 
-        RequestBuilder request = MockMvcRequestBuilders.get(PATH+ "/{id}", 1L);
+        RequestBuilder request = MockMvcRequestBuilders.get(PATH + "/{id}", 1L);
         MvcResult result = mockMvc.perform(request).andReturn();
 
         assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
@@ -117,8 +119,8 @@ class OrderControllerTest {
     @Test
     void insertSuccess() throws Exception {
         this.example.setId(null);
-        Mockito.when(orderService.persist(this.example)).thenReturn(this.example);
-        Mockito.when(orderService.validate(any(Order.class))).thenCallRealMethod();
+        this.example.getProducts().forEach(it -> it.setId(null));
+        Mockito.doReturn(example).when(orderService).persist(any(Order.class));
 
         RequestBuilder request = MockMvcRequestBuilders
                 .post(PATH)
@@ -161,9 +163,8 @@ class OrderControllerTest {
     }
 
     void insertError(Order order) throws Exception {
-        Mockito.when(orderService.persist(order)).thenReturn(order);
-        Mockito.when(orderService.validate(any(Order.class))).thenCallRealMethod();
-
+        Mockito.doReturn(example).when(orderService).persist(any(Order.class));
+        orderService.validate(order);
         RequestBuilder request = MockMvcRequestBuilders
                 .post(PATH)
                 .content(this.objectMapper.writeValueAsString(order))
@@ -176,11 +177,10 @@ class OrderControllerTest {
 
     @Test
     void updateSuccess() throws Exception {
-        Mockito.when(orderService.persist(this.example)).thenReturn(this.example);
-        Mockito.when(orderService.validate(any(Order.class))).thenCallRealMethod();
+        Mockito.doReturn(example).when(orderService).persist(any(Order.class));
 
         RequestBuilder request = MockMvcRequestBuilders
-                .put("/products/{id}", this.example.getId())
+                .put("/orders/{id}", this.example.getId())
                 .content(this.objectMapper.writeValueAsString(this.example))
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(request).andReturn();
@@ -220,11 +220,10 @@ class OrderControllerTest {
     }
 
     void updateError(Order order) throws Exception {
-        Mockito.when(orderService.persist(any(Order.class))).thenReturn(order);
-        Mockito.when(orderService.validate(any(Order.class))).thenCallRealMethod();
+        Mockito.doReturn(order).when(orderService).persist(any(Order.class));
 
         RequestBuilder request = MockMvcRequestBuilders
-                .put(PATH+ "/{id}", order.getId())
+                .put(PATH + "/{id}", order.getId())
                 .content(this.objectMapper.writeValueAsString(order))
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(request).andReturn();

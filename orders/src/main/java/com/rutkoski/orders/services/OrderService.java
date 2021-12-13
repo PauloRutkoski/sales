@@ -53,8 +53,10 @@ public class OrderService {
     }
 
     public Order persist(Order entity) {
-        for(OrderProduct it : entity.getProducts()){
-            it.setOrder(entity);
+        if(entity.getProducts() != null) {
+            for (OrderProduct it : entity.getProducts()) {
+                it.setOrder(entity);
+            }
         }
         return repository.save(entity);
     }

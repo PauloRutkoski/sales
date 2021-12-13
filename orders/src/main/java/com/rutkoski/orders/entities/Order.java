@@ -16,7 +16,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "person_id")
     private Person person;
-    @OneToMany(orphanRemoval = true,  mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderProduct> products;
 
     public Order() {

@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e80668db-b18c-417e-a330-95f8b51d4d2c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/person/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/person/src/main/resources/application-dev.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/person/src/main/resources/application-prod.properties" beforeDir="false" afterPath="$PROJECT_DIR$/person/src/main/resources/application-debug.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/person/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/person/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="e80668db-b18c-417e-a330-95f8b51d4d2c" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
