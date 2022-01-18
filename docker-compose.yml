@@ -1,5 +1,27 @@
 version: '3'
 services:
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    container_name: sales_zookeeper
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: sales_kafka
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+
   db_person:
     image: mysql
     container_name: db_person_mysql
@@ -65,7 +87,7 @@ services:
     environment:
        - "SPRING_PROFILES_ACTIVE=dev"  
   
-  ms_products:
+  ms_orders:
     build:
       "./orders"
     container_name: ms_orders
@@ -77,7 +99,6 @@ services:
       - dev
     environment:
        - "SPRING_PROFILES_ACTIVE=dev"  
-       
   
 networks:
   default:
