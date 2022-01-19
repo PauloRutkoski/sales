@@ -1,8 +1,11 @@
 package com.rutkoski.products.services;
 
 import com.rutkoski.products.entities.Product;
+import com.rutkoski.products.kafka.Event;
+import com.rutkoski.products.kafka.KafkaHelper;
 import com.rutkoski.products.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +15,8 @@ import java.util.Optional;
 public class ProductService {
     @Autowired
     private ProductRepository repository;
+    @Autowired
+    private KafkaHelper helper;
 
     public boolean validate(Product entity) {
         if (entity == null) {
@@ -42,6 +47,8 @@ public class ProductService {
     }
 
     public Product persist(Product entity) {
-        return repository.save(entity);
+        entity = repository.save(entity);
+        helper.persistProductEvent(entity);
+        return entity;
     }
 }

@@ -23,8 +23,6 @@ import java.util.Map;
 @Configuration
 @EnableKafka
 public class KafkaConfig {
-    @Value(value = "${topics.person}")
-    private String topicName;
     @Value(value = "${kafka.bootstrap-servers}")
     private String host;
 
