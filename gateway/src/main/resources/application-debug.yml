@@ -1,0 +1,18 @@
+server:
+  port: 9090
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: person
+          uri: 'http://localhost:8080'
+          predicates:
+            - Path=/person/**
+        - id: products
+          uri: 'http://localhost:8081'
+          predicates:
+            - Path=/products/**
+        - id: orders
+          uri: 'http://localhost:8082'
+          predicates:
+            - Path=/orders/**

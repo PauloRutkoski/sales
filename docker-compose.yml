@@ -61,6 +61,19 @@ services:
     networks:
       - default
 
+  ms_gateway:
+    build:
+      "./gateway"
+    container_name: ms_gateway
+    ports:
+      - "9090:8080"
+    networks:
+      - default
+    profiles:
+      - dev
+    environment:
+       - "SPRING_PROFILES_ACTIVE=dev"
+
   ms_person:
     build:
       "./person"
