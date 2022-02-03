@@ -10,7 +10,7 @@ services:
       
   kafka:
     image: 'bitnami/kafka:latest'
-    container_name: sales_kafka
+    container_name: sales-kafka
     ports:
       - '9092:9092'
     environment:
@@ -61,58 +61,6 @@ services:
     networks:
       - default
 
-  ms_gateway:
-    build:
-      "./gateway"
-    container_name: ms_gateway
-    ports:
-      - "9090:8080"
-    networks:
-      - default
-    profiles:
-      - dev
-    environment:
-       - "SPRING_PROFILES_ACTIVE=dev"
-
-  ms_person:
-    build:
-      "./person"
-    container_name: ms_person
-    ports:
-      - "8080:8080"
-    networks:
-      - default
-    profiles:
-      - dev
-    environment:
-       - "SPRING_PROFILES_ACTIVE=dev"
-
-  ms_products:
-    build:
-      "./products"
-    container_name: ms_products
-    ports:
-      - "8081:8080"
-    networks:
-      - default
-    profiles:
-      - dev
-    environment:
-       - "SPRING_PROFILES_ACTIVE=dev"  
-  
-  ms_orders:
-    build:
-      "./orders"
-    container_name: ms_orders
-    ports:
-      - "8082:8080"
-    networks:
-      - default
-    profiles:
-      - dev
-    environment:
-       - "SPRING_PROFILES_ACTIVE=dev"  
-  
 networks:
   default:
     driver: bridge
