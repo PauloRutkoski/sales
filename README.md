@@ -2,7 +2,7 @@
 <p>
 <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white" /> 
 <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white" />
-<img src="https://img.shields.io/badge/Kakfa-FFF?style=for-the-badge&logo=Apache&logoColor=black" />
+<img src="https://img.shields.io/badge/Kakfa-c3c3c3?style=for-the-badge&logo=Apache&logoColor=black" />
 </p>
 ### This project is an example of event-driven microservices with separate databases to each other which use Apache Kafka for synchronization.
 
